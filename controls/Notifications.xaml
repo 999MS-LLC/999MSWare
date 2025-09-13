@@ -1,0 +1,28 @@
+<UserControl x:Class="MainDabRedo.controls.Notifications"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MainDabRedo"
+             MouseEnter="UserControl_MouseEnter" MouseLeave="UserControl_MouseLeave"
+             mc:Ignorable="d">
+    <Border x:Name="Notif" MinHeight="50" Height="Auto" Width="300" CornerRadius="5" Background="#ffff" ClipToBounds="True" Margin="0,5,0,0">
+        <Grid>
+            <Grid Width="30" Height="30" HorizontalAlignment="Left" Margin="10,0">
+                <Ellipse x:Name="Eclipse" Fill="Transparent"/>
+                <Image x:Name="Image" Source="/images/godswave.png" Margin="3,3,3,3"/>
+            </Grid>
+            <Grid Margin="45,5,20,5">
+                <TextBlock x:Name="Title" Foreground="#6D7381" FontWeight="Bold" FontSize="15" Text="Error undentified." MaxWidth="350" HorizontalAlignment="Left" VerticalAlignment="Center" TextWrapping="Wrap"/>
+            </Grid>
+            <Button x:Name="Cancel" Background="Transparent" HorizontalAlignment="Right" VerticalAlignment="Top" Width="20" Height="20" Margin="1" MouseEnter="Cancel_MouseEnter" MouseLeave="Cancel_MouseLeave" Click="Cancel_Click" BorderBrush="{x:Null}" Foreground="{x:Null}">
+                <Grid>
+                    <Image Source="\images/close.png" Width="15" Height="15"/>
+                    <Image x:Name="closedImg" Source="\images/closed.png" Width="15" Height="15" Opacity="0"/>
+                </Grid>
+            </Button>
+            <Border x:Name="Progressbar" Height="3" HorizontalAlignment="Left" VerticalAlignment="Bottom" CornerRadius="5" Background="Black" Panel.ZIndex="1"/>
+            <Border x:Name="BProgressbar" Height="3" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="300" CornerRadius="5" Background="Black" Panel.ZIndex="0"/>
+        </Grid>
+    </Border>
+</UserControl>

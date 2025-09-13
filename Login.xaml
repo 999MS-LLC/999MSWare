@@ -1,0 +1,274 @@
+﻿<Window x:Class="MainDabRedo.Login"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Login - QAMSWARE"
+        Height="620" Width="980"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None" AllowsTransparency="True"
+        Background="Transparent" MouseDown="Window_MouseDown">
+
+	<Window.Resources>
+		<Style x:Key="GlassButton" TargetType="Button">
+			<Setter Property="Width" Value="320"/>
+			<Setter Property="Height" Value="56"/>
+			<Setter Property="Foreground" Value="White"/>
+			<Setter Property="FontSize" Value="17"/>
+			<Setter Property="FontWeight" Value="SemiBold"/>
+			<Setter Property="Cursor" Value="Hand"/>
+			<Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="Button">
+						<Grid>
+							<Border x:Name="outer" CornerRadius="28" Background="#14202B" BorderThickness="1" BorderBrush="#2e3b50">
+								<Border.Effect>
+									<DropShadowEffect BlurRadius="16" ShadowDepth="0" Color="#000000" Opacity="0.45"/>
+								</Border.Effect>
+							</Border>
+
+							<Rectangle x:Name="band" RadiusX="28" RadiusY="28" Opacity="0" IsHitTestVisible="False" Margin="1">
+								<Rectangle.Fill>
+									<LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+										<GradientStop Color="#2060A0FF" Offset="0"/>
+										<GradientStop Color="#9060E0FF" Offset="0.5"/>
+										<GradientStop Color="#2060A0FF" Offset="1"/>
+									</LinearGradientBrush>
+								</Rectangle.Fill>
+								<Rectangle.RenderTransform>
+									<TranslateTransform x:Name="bandMove" X="-360"/>
+								</Rectangle.RenderTransform>
+							</Rectangle>
+
+							<ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+							<Border x:Name="glow" CornerRadius="28" Background="Transparent" Opacity="0" IsHitTestVisible="False">
+								<Border.Effect>
+									<DropShadowEffect Color="#60A0FF" BlurRadius="28" ShadowDepth="0" Opacity="0.0"/>
+								</Border.Effect>
+							</Border>
+						</Grid>
+
+						<ControlTemplate.Triggers>
+							<Trigger Property="IsMouseOver" Value="True">
+								<Setter TargetName="outer" Property="Background" Value="#183048"/>
+								<Setter TargetName="band" Property="Opacity" Value="0.22"/>
+								<Setter TargetName="glow" Property="Opacity" Value="0.9"/>
+								<Setter Property="RenderTransform">
+									<Setter.Value>
+										<ScaleTransform ScaleX="1.03" ScaleY="1.03"/>
+									</Setter.Value>
+								</Setter>
+								<Trigger.EnterActions>
+									<BeginStoryboard>
+										<Storyboard>
+											<DoubleAnimation Storyboard.TargetName="bandMove"
+                                                             Storyboard.TargetProperty="X"
+                                                             From="-360" To="360" Duration="0:0:1.2" RepeatBehavior="Forever"/>
+											<DoubleAnimation Storyboard.TargetName="glow"
+                                                             Storyboard.TargetProperty="Opacity"
+                                                             From="0.0" To="1.0" Duration="0:0:0.25"/>
+										</Storyboard>
+									</BeginStoryboard>
+								</Trigger.EnterActions>
+								<Trigger.ExitActions>
+									<BeginStoryboard>
+										<Storyboard>
+											<DoubleAnimation Storyboard.TargetName="bandMove"
+                                                             Storyboard.TargetProperty="X"
+                                                             To="-360" Duration="0:0:0.35"/>
+											<DoubleAnimation Storyboard.TargetName="glow"
+                                                             Storyboard.TargetProperty="Opacity"
+                                                             To="0.0" Duration="0:0:0.25"/>
+										</Storyboard>
+									</BeginStoryboard>
+								</Trigger.ExitActions>
+							</Trigger>
+
+							<Trigger Property="IsPressed" Value="True">
+								<Setter Property="RenderTransform">
+									<Setter.Value>
+										<ScaleTransform ScaleX="0.985" ScaleY="0.985"/>
+									</Setter.Value>
+								</Setter>
+							</Trigger>
+						</ControlTemplate.Triggers>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+		</Style>
+
+		<Style x:Key="TitleBarButton" TargetType="Button">
+			<Setter Property="Width" Value="38"/>
+			<Setter Property="Height" Value="34"/>
+			<Setter Property="FontWeight" Value="Bold"/>
+			<Setter Property="Foreground" Value="White"/>
+			<Setter Property="Background" Value="Transparent"/>
+			<Setter Property="BorderBrush" Value="Transparent"/>
+			<Setter Property="Cursor" Value="Hand"/>
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="Button">
+						<Border x:Name="bd" CornerRadius="8" Background="{TemplateBinding Background}">
+							<ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+						</Border>
+						<ControlTemplate.Triggers>
+							<Trigger Property="IsMouseOver" Value="True">
+								<Setter TargetName="bd" Property="Background" Value="#253045"/>
+								<Setter TargetName="bd" Property="Effect">
+									<Setter.Value>
+										<DropShadowEffect Color="#60A0FF" BlurRadius="14" ShadowDepth="0" Opacity="0.35"/>
+									</Setter.Value>
+								</Setter>
+							</Trigger>
+							<Trigger Property="IsPressed" Value="True">
+								<Setter TargetName="bd" Property="Background" Value="#2f3a55"/>
+							</Trigger>
+						</ControlTemplate.Triggers>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+		</Style>
+
+		<Style x:Key="CloseButton" BasedOn="{StaticResource TitleBarButton}" TargetType="Button">
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="Button">
+						<Border x:Name="bd" CornerRadius="8" Background="{TemplateBinding Background}">
+							<ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+						</Border>
+						<ControlTemplate.Triggers>
+							<Trigger Property="IsMouseOver" Value="True">
+								<Setter TargetName="bd" Property="Background" Value="#402020"/>
+								<Setter TargetName="bd" Property="Effect">
+									<Setter.Value>
+										<DropShadowEffect Color="#FF5050" BlurRadius="16" ShadowDepth="0" Opacity="0.6"/>
+									</Setter.Value>
+								</Setter>
+							</Trigger>
+							<Trigger Property="IsPressed" Value="True">
+								<Setter TargetName="bd" Property="Background" Value="#5a1010"/>
+							</Trigger>
+						</ControlTemplate.Triggers>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+		</Style>
+
+		<Storyboard x:Key="BackgroundWave" RepeatBehavior="Forever" AutoReverse="True">
+			<ColorAnimation Storyboard.TargetName="bgStopA" Storyboard.TargetProperty="Color"
+                            From="#0f1020" To="#163047" Duration="0:0:8"/>
+			<ColorAnimation Storyboard.TargetName="bgStopB" Storyboard.TargetProperty="Color"
+                            From="#2b2440" To="#4a2d6e" Duration="0:0:8"/>
+			<ColorAnimation Storyboard.TargetName="bgStopC" Storyboard.TargetProperty="Color"
+                            From="#1a548a" To="#ff6b6b" Duration="0:0:8"/>
+		</Storyboard>
+		<Storyboard x:Key="LogoSpin" RepeatBehavior="Forever">
+			<DoubleAnimation Storyboard.TargetName="LogoRotateTransform" Storyboard.TargetProperty="Angle"
+                             From="0" To="360" Duration="0:0:14"/>
+		</Storyboard>
+		<Storyboard x:Key="TitleEnter">
+			<DoubleAnimation Storyboard.TargetName="TitleText" Storyboard.TargetProperty="Opacity"
+                             From="0" To="1" Duration="0:0:0.9"/>
+			<ThicknessAnimation Storyboard.TargetName="TitleText" Storyboard.TargetProperty="Margin"
+                                From="0,-40,0,10" To="0,0,0,10" Duration="0:0:0.9" DecelerationRatio="0.85"/>
+		</Storyboard>
+		<Storyboard x:Key="MorphToCheck">
+			<DoubleAnimation Storyboard.TargetName="IconX" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.18"/>
+			<DoubleAnimation Storyboard.TargetName="IconX" Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleX)" To="0.6" Duration="0:0:0.18"/>
+			<DoubleAnimation Storyboard.TargetName="IconX" Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleY)" To="0.6" Duration="0:0:0.18"/>
+			<DoubleAnimation Storyboard.TargetName="IconCheck" Storyboard.TargetProperty="Opacity" To="1" BeginTime="0:0:0.18" Duration="0:0:0.28"/>
+			<DoubleAnimation Storyboard.TargetName="IconCheck" Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleX)" From="0.6" To="1.05" BeginTime="0:0:0.18" Duration="0:0:0.28"/>
+			<DoubleAnimation Storyboard.TargetName="IconCheck" Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleY)" From="0.6" To="1.05" BeginTime="0:0:0.18" Duration="0:0:0.28"/>
+			<DoubleAnimation Storyboard.TargetName="IconCheck" Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleX)" To="1" BeginTime="0:0:0.46" Duration="0:0:0.12"/>
+			<DoubleAnimation Storyboard.TargetName="IconCheck" Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleY)" To="1" BeginTime="0:0:0.46" Duration="0:0:0.12"/>
+		</Storyboard>
+		<Storyboard x:Key="MorphToX">
+			<DoubleAnimation Storyboard.TargetName="IconCheck" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.18"/>
+			<DoubleAnimation Storyboard.TargetName="IconX" Storyboard.TargetProperty="Opacity" To="1" BeginTime="0:0:0.18" Duration="0:0:0.18"/>
+			<DoubleAnimation Storyboard.TargetName="IconX" Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleX)" To="1" BeginTime="0:0:0.18" Duration="0:0:0.18"/>
+			<DoubleAnimation Storyboard.TargetName="IconX" Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleY)" To="1" BeginTime="0:0:0.18" Duration="0:0:0.18"/>
+		</Storyboard>
+	</Window.Resources>
+	<Grid>
+		<Border CornerRadius="28" Margin="12" Padding="0">
+			<Border.Background>
+				<LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+					<GradientStop x:Name="bgStopA" Color="#0f1020" Offset="0"/>
+					<GradientStop x:Name="bgStopB" Color="#2b2440" Offset="0.55"/>
+					<GradientStop x:Name="bgStopC" Color="#1a548a" Offset="1"/>
+				</LinearGradientBrush>
+			</Border.Background>
+			<Grid>
+				<Canvas IsHitTestVisible="False">
+					<Ellipse Width="420" Height="420" Canvas.Left="-120" Canvas.Top="-140" Fill="#203860FF" Opacity="1.18"/>
+					<Ellipse Width="320" Height="320" Canvas.Right="-80" Canvas.Bottom="-100" Fill="#20FF6B6B" Opacity="1.12"/>
+				</Canvas>
+				<Rectangle Fill="#80FFFFFF" Opacity="0.04" IsHitTestVisible="False">
+					<Rectangle.RenderTransform>
+						<TranslateTransform x:Name="BandTranslate" X="-380"/>
+					</Rectangle.RenderTransform>
+				</Rectangle>
+				<Grid>
+					<StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,18,18,0">
+						<Button Content="―" Click="MinimizeButton_Click" Style="{StaticResource TitleBarButton}" Margin="0,0,8,0"/>
+						<Button Content="X" Click="CloseButton_Click" Style="{StaticResource CloseButton}"/>
+					</StackPanel>
+					<StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="640">
+						<TextBlock x:Name="TitleText" Text="⚡ QA.MSWare" FontSize="36" FontWeight="ExtraBold"
+                                   Foreground="White" HorizontalAlignment="Center" Margin="0,0,0,10" Opacity="10"/>
+						<TextBlock Text="Fast • Secure • Modern" FontSize="15" Foreground="#E8EAF6"
+                                   HorizontalAlignment="Center" Margin="0,0,0,20"/>
+						<Grid Width="160" Height="160" HorizontalAlignment="Center" Margin="0,0,0,18">
+							<Ellipse Width="160" Height="160" Fill="#141822" Stroke="#2d3f67" StrokeThickness="2">
+								<Ellipse.Effect>
+									<DropShadowEffect Color="#60A0FF" BlurRadius="30" ShadowDepth="0" Opacity="0.32"/>
+								</Ellipse.Effect>
+							</Ellipse>
+							<Ellipse Width="120" Height="120" Stroke="#60A0FF" StrokeThickness="3" Opacity="0.85" Fill="Transparent"
+                                     RenderTransformOrigin="0.5,0.5">
+								<Ellipse.RenderTransform>
+									<RotateTransform x:Name="LogoRotateTransform" Angle="0"/>
+								</Ellipse.RenderTransform>
+							</Ellipse>
+							<Ellipse Width="96" Height="96" Fill="#0E1220" Stroke="#334a6a" StrokeThickness="1.5" />
+							<TextBlock x:Name="IconX" Text="✖" FontSize="52" FontWeight="Bold" Foreground="#FF5A5A"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="1">
+								<TextBlock.RenderTransform>
+									<ScaleTransform ScaleX="1" ScaleY="1"/>
+								</TextBlock.RenderTransform>
+							</TextBlock>
+							<TextBlock x:Name="IconCheck" Text="✔" FontSize="52" FontWeight="Bold" Foreground="#6EF07A"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0">
+								<TextBlock.RenderTransform>
+									<ScaleTransform ScaleX="0.6" ScaleY="0.6"/>
+								</TextBlock.RenderTransform>
+							</TextBlock>
+							<Ellipse Width="140" Height="140" Fill="Transparent" IsHitTestVisible="False">
+								<Ellipse.Effect>
+									<DropShadowEffect x:Name="IconGlow" Color="#60A0FF" BlurRadius="36" ShadowDepth="0" Opacity="0.0"/>
+								</Ellipse.Effect>
+							</Ellipse>
+						</Grid>
+						<Button x:Name="LoginButton" Content="Login with Discord" Style="{StaticResource GlassButton}" Click="LoginButton_Click"/>
+
+						<TextBlock x:Name="HintText" Text="Click login to authenticate with Discord" FontSize="12"
+                                   Foreground="#D9E1FF" HorizontalAlignment="Center" Margin="0,14,0,0"/>
+					</StackPanel>
+				</Grid>
+			</Grid>
+		</Border>
+	</Grid>
+	<Window.Triggers>
+		<EventTrigger RoutedEvent="Window.Loaded">
+			<BeginStoryboard Storyboard="{StaticResource BackgroundWave}"/>
+			<BeginStoryboard>
+				<Storyboard RepeatBehavior="Forever">
+					<DoubleAnimation Storyboard.TargetName="BandTranslate" Storyboard.TargetProperty="X"
+                                     From="-380" To="380" Duration="0:0:12" RepeatBehavior="Forever"/>
+				</Storyboard>
+			</BeginStoryboard>
+			<BeginStoryboard Storyboard="{StaticResource LogoSpin}"/>
+			<BeginStoryboard Storyboard="{StaticResource TitleEnter}"/>
+		</EventTrigger>
+	</Window.Triggers>
+</Window>
